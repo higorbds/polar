@@ -10,6 +10,6 @@ polar new project_name --git --lang=c
 ## Features TO-DO:
 - [ ] Implement the ´new´ command
   - [X] Create a directory ´~/Projects/project_name´
-  - [ ] If ´--git´ option, init git
+  - [X] If ´--git´ option, init git
   - [ ] For this first version, create the "hello world" for the version of '--lang' option
-    - [ ] Implement a parser for this option that returns a symbol for given language
+    - [X] Implement a parser for this option that returns a symbol for given language
