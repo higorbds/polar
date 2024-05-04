@@ -4,11 +4,20 @@ PROGRAM=polar
 
 VPATH=src
 
+outs = main.o new.o
+sources= main.c new.c
+
 all: $(PROGRAM)
 
-$(PROGRAM): main.c
+$(PROGRAM): $(outs)
 	mkdir build
-	$(CC) $(CFLAGS) -o build/$@ $<
+	$(CC) $(CFLAGS) -o build/$@ $^
 
+%.o: %.c
+	$(CC) $(CFLAGS) -o $@ -c $<
 clean:
 	rm -rf build
+	rm $(outs)
+
+main.o: polar.h 
+new.o: polar.h
