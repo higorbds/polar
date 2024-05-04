@@ -10,7 +10,7 @@
 #define PROJECTS_PATH "/home/higor/Projects" // ALTERATE THIS TO YOUR PERSONAL PROJECT PATH
 
 void put_log(char *msg) {
-  fprintf(stdout, "%s", msg);
+  fprintf(stdout, "%s\n", msg);
 }
 
 int create_project(const char *name, const char *lang, const bool git) {
@@ -24,7 +24,14 @@ int create_project(const char *name, const char *lang, const bool git) {
   }
 
   mkdir(project_path, 0777);
-  put_log("[INFO]: Creating path.\n");
+  put_log("[INFO]: Creating path.");
+
+  if(git) {
+    char tmp[PJ_NAME_SIZE+8];
+    sprintf(tmp, "git init %s", project_path);
+    system(tmp);
+    put_log("[INFO] Initializing Git");
+  }
 
   return 0;
 }
@@ -38,10 +45,17 @@ int main(int argc, char **argv) {
     // 'new' command
     if(strcmp(argv[1], "new") == 0) {
       if(argc >= 3) {
-
-        char project_name[PJ_NAME_SIZE];
+        
+        bool as_git = false;
+        char project_name[PATH_SIZE];
         strcpy(project_name, argv[2]);
-        create_project(project_name, NULL, false);
+
+        for(int i=1; i < argc; i++) {
+          if(strcmp(argv[i], "--git") == 0)
+            as_git = true;
+        }
+
+        create_project(project_name, NULL, as_git);
 
       } else {
         fprintf(stderr, "'polar new' command requires an project name.\nType 'polar new (project_name)'.\n");
